@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zain Khan - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Color Theme Selector -->
+    <div class="theme-selector">
+        <button class="theme-toggle" aria-label="Choose theme color">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="color-options">
+            <button class="color-option" data-color="lavender" style="background-color: #E6E6FA"></button>
+            <button class="color-option" data-color="mint" style="background-color: #F0FFFF"></button>
+            <button class="color-option" data-color="peach" style="background-color: #FFEBE9"></button>
+            <button class="color-option" data-color="lemon" style="background-color: #FFFACD"></button>
+            <button class="color-option" data-color="sage" style="background-color: #F0F8F0"></button>
+            <button class="color-option" data-color="rose" style="background-color: #FFE4E1"></button>
+            <button class="color-option" data-color="coral" style="background-color: #FFE4E6"></button>
+            <button class="color-option" data-color="sky" style="background-color: #E0F6FF"></button>
+            <button class="color-option" data-color="lilac" style="background-color: #F3E5F5"></button>
+            <button class="color-option" data-color="cream" style="background-color: #FFF8E1"></button>
+            <button class="color-option" data-color="mint-green" style="background-color: #E8F5E8"></button>
+            <button class="color-option" data-color="powder" style="background-color: #F0F8FF"></button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">ZK</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Music Player in Nav -->
+            <div class="nav-music-player">
+                <button class="music-btn play-pause" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="music-btn next-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" min="0" max="100" value="50" id="volumeSlider">
+                </div>
+                <audio id="backgroundMusic" loop>
+                    <source src="music/Lofi Background Music.mp3" type="audio/mpeg">
+                    <source src="music/Good Night Lofi Music.mp3" type="audio/mpeg">
+                    <source src="music/Cutie Japan Lofi.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Chill Music 398290.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Hiphop 401921.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Music 344112.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Music 398288.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Music 401926.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Song 401920.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Study Calm Chill Hop.mp3" type="audio/mpeg">
+                    <source src="music/Rainy Lofi City Music.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hello-carousel">
+                    <span class="hello-text">Hello!</span>
+                    <span class="hello-text">Hola!</span>
+                    <span class="hello-text">Bonjour!</span>
+                    <span class="hello-text">Hallo!</span>
+                    <span class="hello-text">Ciao!</span>
+                    <span class="hello-text">こんにちは!</span>
+                    <span class="hello-text">你好!</span>
+                    <span class="hello-text">Привет!</span>
+                    <span class="hello-text">مرحبا!</span>
+                    <span class="hello-text">नमस्ते!</span>
+                    <span class="hello-text">Salut!</span>
+                    <span class="hello-text">Hej!</span>
+                    <span class="hello-text">안녕하세요!</span>
+                    <span class="hello-text">Olá!</span>
+                    <span class="hello-text">Hei!</span>
+                    <span class="hello-text">Ahoj!</span>
+                    <span class="hello-text">Γεια σας!</span>
+                    <span class="hello-text">Merhaba!</span>
+                    <span class="hello-text">Hej!</span>
+                    <span class="hello-text">Tere!</span>
+                </div>
+                <h1 class="hero-title fade-in">i'm zain khan</h1>
+                <p class="hero-subtitle fade-in">compeng @uwaterloo</p>
+                <div class="social-links fade-in">
+                    <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="social-link" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/7kzaincode" target="_blank" class="social-link" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:kn.zain@hotmail.com" class="social-link" aria-label="Email">
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
+                </div>
+                
+                <!-- Resume Download Button -->
+                <div class="resume-section fade-in">
+                    <a href="ZAINS RESUME.pdf" target="_blank" class="resume-btn">
+                        <i class="fas fa-download"></i>
+                        Download Resume
+                    </a>
+                </div>
+                
+                <!-- Fun Facts Carousel -->
+                <div class="fun-facts-section fade-in">
+                    <h3 class="subsection-title">Fun Facts</h3>
+                    <div class="fun-facts-carousel">
+                        <div class="fun-fact-track">
+                            <div class="fun-fact-item">I'm 6'0 (fine, technically 5'11)</div>
+                            <div class="fun-fact-item">I've had two pet hamsters</div>
+                            <div class="fun-fact-item">Born in Leeds, UK, but originally from Azad Kashmir</div>
+                            <div class="fun-fact-item">My favorite movie is The Godfather Part II</div>
+                            <div class="fun-fact-item">Favorite show? Game of Thrones — yes, even the last season</div>
+                            <div class="fun-fact-item">My favorite animal is the spider monkey</div>
+                            <div class="fun-fact-item">I want to visit the Netherlands someday</div>
+                            <div class="fun-fact-item">My League rank is Plat 4 (don't worry, I'll tell you again)</div>
+                            <!-- Duplicate for seamless loop -->
+                            <div class="fun-fact-item">I'm 6'0 (fine, technically 5'11)</div>
+                            <div class="fun-fact-item">I've had two pet hamsters</div>
+                            <div class="fun-fact-item">Born in Leeds, UK, but originally from Azad Kashmir</div>
+                            <div class="fun-fact-item">My favorite movie is The Godfather Part II</div>
+                            <div class="fun-fact-item">Favorite show? Game of Thrones — yes, even the last season</div>
+                            <div class="fun-fact-item">My favorite animal is the spider monkey</div>
+                            <div class="fun-fact-item">I want to visit the Netherlands someday</div>
+                            <div class="fun-fact-item">My League rank is Plat 4 (don't worry, I'll tell you again)</div>
+                            <!-- Additional duplicates for fuller carousel -->
+                            <div class="fun-fact-item">I'm 6'0 (fine, technically 5'11)</div>
+                            <div class="fun-fact-item">I've had two pet hamsters</div>
+                            <div class="fun-fact-item">Born in Leeds, UK, but originally from Azad Kashmir</div>
+                            <div class="fun-fact-item">My favorite movie is The Godfather Part II</div>
+                            <div class="fun-fact-item">Favorite show? Game of Thrones — yes, even the last season</div>
+                            <div class="fun-fact-item">My favorite animal is the spider monkey</div>
+                            <div class="fun-fact-item">I want to visit the Netherlands someday</div>
+                            <div class="fun-fact-item">My League rank is Plat 4 (don't worry, I'll tell you again)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title fade-in">About Me</h2>
+                <div class="about-content fade-in">
+                    <p>
+                        I'm Zain, a comp eng student at Waterloo who spends way too much time coding random projects. Most of them start with "I wonder if I can…" and sometimes they actually work. I've built an arcade cabinet, redone company websites, and written scripts just to save people from Excel headaches. Outside of that, I like working out, logbait, and occasionally cooking for people — because food is only fun when someone else enjoys it.
+                    </p>
+                </div>
+                
+                <!-- Skills Section -->
+                <div class="skills-content fade-in">
+                    <h3 class="subsection-title">Skills</h3>
+                    <div class="skills-list">
+                        <div class="skill-category">
+                            <h4>Web</h4>
+                            <p>HTML, CSS, JavaScript</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Programming</h4>
+                            <p>Python, Java, C# (a little)</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Databases</h4>
+                            <p>Firebase & databases (aka debugging marathons)</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Design</h4>
+                            <p>CAD & 3D modeling (Fusion 360, Blender, AutoCAD)</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Hardware</h4>
+                            <p>Raspberry Pi tinkering</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Automation</h4>
+                            <p>Excel/finance automation (thanks Kasperia)</p>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Teaching</h4>
+                            <p>Teaching & mentoring (Coding Club + Code Ninjas)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interests Section -->
+                <div class="interests-content fade-in">
+                    <h3 class="subsection-title">Interests</h3>
+                    <div class="interests-list">
+                        <div class="interest-item">Coding projects that start as experiments and sometimes become actual projects</div>
+                        <div class="interest-item">Working out (lifting > cardio)</div>
+                        <div class="interest-item">Gaming (League, Valorant, Minecraft)</div>
+                        <div class="interest-item">Retro games — the arcade cabinet project was my favorite</div>
+                        <div class="interest-item">Cooking simple meals (but only when I can share them)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title fade-in">Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card fade-in">
+                        <div class="project-content">
+                            <h3 class="project-title">Kasperia</h3>
+                            <p class="project-description">
+                                A modern web application showcasing innovative design and functionality.
+                            </p>
+                            <div class="project-links">
+                                <a href="https://github.com/7kzaincode/webkasper" target="_blank" class="project-link">GitHub</a>
+                                <a href="https://kasperia.ca/" target="_blank" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card fade-in">
+                        <div class="project-content">
+                            <h3 class="project-title">Caesar Cipher</h3>
+                            <p class="project-description">
+                                An interactive tool for encoding and decoding messages using the Caesar cipher encryption method.
+                            </p>
+                            <div class="project-links">
+                                <a href="https://github.com/7kzaincode/Caesar-Cipher-Tool" target="_blank" class="project-link">GitHub</a>
+                                <a href="https://caesarcipherzk.netlify.app/" target="_blank" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card fade-in">
+                        <div class="project-content">
+                            <h3 class="project-title">Image to ASCII</h3>
+                            <p class="project-description">
+                                Convert images into ASCII art with customizable character sets and sizing options.
+                            </p>
+                            <div class="project-links">
+                                <a href="https://github.com/7kzaincode/img-to-ascii" target="_blank" class="project-link">GitHub</a>
+                                <a href="https://image-to-ascii-art.netlify.app/" target="_blank" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card fade-in">
+                        <div class="project-content">
+                            <h3 class="project-title">Immy Bird</h3>
+                            <p class="project-description">
+                                A fun Flappy Bird clone built with modern web technologies and smooth gameplay mechanics.
+                            </p>
+                            <div class="project-links">
+                                <a href="https://github.com/7kzaincode/flappy-bird" target="_blank" class="project-link">GitHub</a>
+                                <a href="https://immy-bird.netlify.app/" target="_blank" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title fade-in">Get In Touch</h2>
+                <div class="contact-content fade-in">
+                    <p class="contact-description">
+                        I'm always interested in new opportunities and collaborations. 
+                        Feel free to reach out if you'd like to connect!
+                    </p>
+                    <div class="contact-info">
+                        <a href="mailto:kn.zain@hotmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            kn.zain@hotmail.com
+                        </a>
+                        <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="contact-link">
+                            <i class="fab fa-linkedin"></i>
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com/7kzaincode" target="_blank" class="contact-link">
+                            <i class="fab fa-github"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Zain Khan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

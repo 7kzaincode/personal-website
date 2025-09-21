@@ -317,8 +317,9 @@ body {
   right: 15px;
   z-index: 1000;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
 }
 
 .mode-toggle {

@@ -654,8 +654,8 @@ class MusicPlayer {
         this.audio.addEventListener('ended', () => this.nextTrack());
         
         // Set initial volume to very low and track
-        this.volumeSlider.value = 15; // Set slider to 15 (out of 30 max)
-        this.audio.volume = 15 / 100; // Convert to actual volume (15%)
+        this.volumeSlider.value = 5; // Set slider to 8 (out of 30 max)
+        this.audio.volume = (this.volumeSlider.value) / 100; // Convert to actual volume (15%)
         this.loadTrack(this.currentTrack);
         
         // Listen for music consent

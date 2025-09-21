@@ -414,13 +414,15 @@ class TypingAnimation {
         this.isDeleting = false;
         this.isFixingTypo = false;
         this.typoMade = false;
+        this.isDeletingInitialText = true; // Start by deleting the static text
 
         this.typeSpeed = 60;
         this.deleteSpeed = 30;
+        this.typoDeleteSpeed = 80; // Slower backspacing for typo correction
         this.pauseTime = 1500;
-        this.typoPause = 400;
+        this.typoPause = 150; // Quicker typo detection (reduced from 400ms)
 
-        this.typoString = 'compoter';
+        this.typoString = 'comptuer';
         this.typoStartIndex = 0; // The typo is the first word
         
         
@@ -431,7 +433,12 @@ class TypingAnimation {
     init() {
         // Wait for preloader to complete before starting typing animation
         document.addEventListener('preloaderComplete', () => {
-            setTimeout(() => this.type(), 1500); // Additional delay after preloader slides up
+            setTimeout(() => {
+                // Get the current static text length to start deleting from there
+                const staticText = this.heroSubtitle.textContent || this.heroSubtitle.innerText;
+                this.charIndex = staticText.length;
+                this.type();
+            }, 1500); // Additional delay after preloader slides up
         });
     }
 
@@ -439,8 +446,20 @@ class TypingAnimation {
         const currentText = this.texts[this.currentTextIndex];
         let timeout = this.typeSpeed;
 
+        // Handle DELETING INITIAL TEXT state (backspace the static "compeng @uwaterloo")
+        if (this.isDeletingInitialText) {
+            this.charIndex--;
+            const staticText = "compeng @uwaterloo";
+            const displayText = staticText.substring(0, this.charIndex);
+            this.heroSubtitle.innerHTML = `${displayText}<span class="cursor">|</span>`;
+            timeout = this.deleteSpeed;
+
+            if (this.charIndex === 0) {
+                this.isDeletingInitialText = false;
+                timeout = 500; // Pause before starting to type
+            }
         // Handle DELETING state
-        if (this.isDeleting) {
+        } else if (this.isDeleting) {
             this.charIndex--;
             const displayText = currentText.substring(0, this.charIndex);
             this.heroSubtitle.innerHTML = `${displayText}<span class="cursor">|</span>`;
@@ -458,7 +477,7 @@ class TypingAnimation {
             const textBeforeTypo = currentText.substring(0, this.typoStartIndex);
             const incorrectPart = this.typoString.substring(0, this.charIndex - this.typoStartIndex);
             this.heroSubtitle.innerHTML = `${textBeforeTypo}${incorrectPart}<span class="cursor">|</span>`;
-            timeout = this.deleteSpeed;
+            timeout = this.typoDeleteSpeed; // Use slower delete speed for typo correction
 
             // Stop backspacing at the common prefix ('comp')
             const commonPrefix = 'comp';

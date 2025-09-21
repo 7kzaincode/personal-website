@@ -422,7 +422,7 @@ class TypingAnimation {
         this.pauseTime = 1500;
         this.typoPause = 150; // Quicker typo detection (reduced from 400ms)
 
-        this.typoString = 'comptuer';
+        this.typoString = 'comptue';
         this.typoStartIndex = 0; // The typo is the first word
         
         

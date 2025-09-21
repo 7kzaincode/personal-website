@@ -90,7 +90,7 @@ body {
 .theme-selector {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 15px;
   z-index: 1000;
 }
 
@@ -172,6 +172,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .nav-logo {
@@ -189,7 +190,8 @@ body {
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 3rem;
+  gap: 2.5rem;
+  margin-right: 2rem;
 }
 
 .nav-link {
@@ -360,7 +362,7 @@ body {
   border-radius: 20px;
   padding: 0.5rem 1rem;
   position: absolute;
-  left: 50%;
+  left: 45%;
   transform: translateX(-50%);
   min-width: 160px;
 }

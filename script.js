@@ -268,9 +268,10 @@ class TypingAnimation {
     constructor() {
         this.heroSubtitle = document.querySelector('.hero-subtitle');
         this.texts = [
-            'Computer Engineering Freshman at the University of Waterloo',
-            'Passionate about Innovation and Technology',
-            'Building the Future Through Code'
+            'computer engineering freshman at the university of waterloo',
+            'currently scaling...',
+            'i want to invent something, just waiting on the lightbulb',
+            'i break things until they work (sometimes on purpose).',
         ];
         this.currentTextIndex = 0;
         this.currentCharIndex = 0;

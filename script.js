@@ -4,8 +4,10 @@ class ThemeManager {
         this.themeToggle = document.querySelector('.theme-toggle');
         this.colorOptions = document.querySelector('.color-options');
         this.colorButtons = document.querySelectorAll('.color-option');
+        this.modeBtn = document.querySelector('.mode-btn');
         this.availableThemes = ['lavender', 'mint', 'peach', 'lemon', 'sage', 'rose', 'coral', 'sky', 'lilac', 'cream', 'mint-green', 'powder'];
         this.currentTheme = this.getRandomTheme();
+        this.currentMode = this.getSavedMode();
         
         this.init();
     }
@@ -21,13 +23,22 @@ class ThemeManager {
         return this.availableThemes[Math.floor(Math.random() * this.availableThemes.length)];
     }
 
+    getSavedMode() {
+        const savedMode = localStorage.getItem('mode');
+        return savedMode || 'light';
+    }
+
     init() {
-        // Set initial theme
+        // Set initial theme and mode
         this.setTheme(this.currentTheme);
+        this.setMode(this.currentMode);
         this.updateActiveButton();
+        this.updateModeIcon();
+        this.updateNavbarBackground();
         
         // Event listeners
         this.themeToggle.addEventListener('click', () => this.toggleColorOptions());
+        this.modeBtn.addEventListener('click', () => this.toggleMode());
         this.colorButtons.forEach(button => {
             button.addEventListener('click', (e) => this.changeTheme(e.target.dataset.color));
         });
@@ -50,10 +61,59 @@ class ThemeManager {
         this.updateActiveButton();
         localStorage.setItem('theme', theme);
         this.colorOptions.classList.remove('active');
+        
+        // Update navbar background to match new theme
+        setTimeout(() => this.updateNavbarBackground(), 50);
     }
 
     setTheme(theme) {
         document.body.setAttribute('data-theme', theme);
+    }
+
+    setMode(mode) {
+        document.body.setAttribute('data-mode', mode);
+    }
+
+    toggleMode() {
+        this.currentMode = this.currentMode === 'light' ? 'dark' : 'light';
+        this.setMode(this.currentMode);
+        this.updateModeIcon();
+        localStorage.setItem('mode', this.currentMode);
+        
+        // Update navbar background immediately
+        this.updateNavbarBackground();
+    }
+
+    updateNavbarBackground() {
+        const navbar = document.querySelector('.navbar');
+        
+        // Get the current background color from CSS variables
+        const computedStyle = getComputedStyle(document.body);
+        const bgColor = computedStyle.getPropertyValue('--primary-bg').trim();
+        
+        // Convert hex to rgba if needed, or use the color directly
+        let navbarBg;
+        if (bgColor.startsWith('#')) {
+            // Convert hex to rgb
+            const r = parseInt(bgColor.slice(1, 3), 16);
+            const g = parseInt(bgColor.slice(3, 5), 16);
+            const b = parseInt(bgColor.slice(5, 7), 16);
+            navbarBg = `rgba(${r}, ${g}, ${b}, 0.95)`;
+        } else {
+            // Already in rgb format, just add alpha
+            navbarBg = bgColor.replace('rgb', 'rgba').replace(')', ', 0.95)');
+        }
+        
+        navbar.style.background = navbarBg;
+    }
+
+    updateModeIcon() {
+        const icon = this.modeBtn.querySelector('i');
+        if (this.currentMode === 'dark') {
+            icon.className = 'fas fa-sun';
+        } else {
+            icon.className = 'fas fa-moon';
+        }
     }
 
     updateActiveButton() {
@@ -99,19 +159,36 @@ class SmoothScroll {
     updateActiveNav() {
         const sections = document.querySelectorAll('section[id]');
         const scrollPos = window.scrollY + 150;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        let activeSection = null;
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
+        // Check if we're at the bottom of the page
+        if (window.scrollY + windowHeight >= documentHeight - 10) {
+            // If at bottom, highlight the last section (contact)
+            const lastSection = sections[sections.length - 1];
+            if (lastSection) {
+                activeSection = lastSection.getAttribute('id');
+            }
+        } else {
+            // Normal scroll detection
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
 
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                this.navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    activeSection = sectionId;
+                }
+            });
+        }
+
+        // Update nav links based on active section
+        this.navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkHref = link.getAttribute('href');
+            if (activeSection && linkHref === `#${activeSection}`) {
+                link.classList.add('active');
             }
         });
     }
@@ -121,12 +198,14 @@ class SmoothScroll {
 class ScrollAnimations {
     constructor() {
         this.animatedElements = document.querySelectorAll('.fade-in');
+        this.skillBars = document.querySelectorAll('.skill-progress');
         this.observer = null;
+        this.skillObserver = null;
         this.init();
     }
 
     init() {
-        // Create intersection observer
+        // Create intersection observer for fade-in animations
         this.observer = new IntersectionObserver(
             (entries) => this.handleIntersection(entries),
             {
@@ -135,9 +214,23 @@ class ScrollAnimations {
             }
         );
 
+        // Create intersection observer for skill bars
+        this.skillObserver = new IntersectionObserver(
+            (entries) => this.handleSkillBars(entries),
+            {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            }
+        );
+
         // Observe all animated elements
         this.animatedElements.forEach(element => {
             this.observer.observe(element);
+        });
+
+        // Observe skill bars
+        this.skillBars.forEach(skillBar => {
+            this.skillObserver.observe(skillBar);
         });
     }
 
@@ -147,6 +240,22 @@ class ScrollAnimations {
                 entry.target.style.animationDelay = '0s';
                 entry.target.style.animationPlayState = 'running';
                 this.observer.unobserve(entry.target);
+            }
+        });
+    }
+
+    handleSkillBars(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const skillBar = entry.target;
+                const targetWidth = skillBar.getAttribute('data-width');
+                
+                // Animate the progress bar
+                setTimeout(() => {
+                    skillBar.style.width = targetWidth + '%';
+                }, 200);
+                
+                this.skillObserver.unobserve(skillBar);
             }
         });
     }
@@ -198,68 +307,97 @@ class NavbarScroll {
     handleScroll() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Add background blur when scrolled
-        if (scrollTop > 50) {
-            this.navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            this.navbar.style.backdropFilter = 'blur(10px)';
+        // Get the current background color from CSS variables
+        const computedStyle = getComputedStyle(document.body);
+        const bgColor = computedStyle.getPropertyValue('--primary-bg').trim();
+        
+        // Convert hex to rgba if needed, or use the color directly
+        let navbarBg;
+        if (bgColor.startsWith('#')) {
+            // Convert hex to rgb
+            const r = parseInt(bgColor.slice(1, 3), 16);
+            const g = parseInt(bgColor.slice(3, 5), 16);
+            const b = parseInt(bgColor.slice(5, 7), 16);
+            navbarBg = `rgba(${r}, ${g}, ${b}, 0.95)`;
         } else {
-            this.navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            this.navbar.style.backdropFilter = 'blur(10px)';
+            // Already in rgb format, just add alpha
+            navbarBg = bgColor.replace('rgb', 'rgba').replace(')', ', 0.95)');
         }
+        
+        this.navbar.style.background = navbarBg;
+        this.navbar.style.backdropFilter = 'blur(10px)';
         
         this.lastScrollTop = scrollTop;
     }
 }
 
-// Hello Carousel Animation
-class HelloCarousel {
+class Preloader {
     constructor() {
-        this.helloTexts = document.querySelectorAll('.hello-text');
-        this.currentIndex = 0;
-        this.isAnimating = false;
-        
+        this.preloader = document.getElementById('preloader');
+        this.preloaderText = this.preloader.querySelector('.preloader-text');
+        this.progressFill = this.preloader.querySelector('.progress-fill');
+        this.hellos = [
+            'Hello',
+            'Bonjour',
+            'こんにちは',
+            '你好',
+            'مرحبا',
+            'नमस्ते',
+            '안녕하세요'
+        ];
+        this.currentHelloIndex = 0;
+
         this.init();
     }
 
     init() {
-        if (this.helloTexts.length === 0) return;
-        
-        // Start with first text visible
-        this.helloTexts[0].classList.add('active');
-        
-        // Start the carousel after a short delay
-        setTimeout(() => {
-            this.startCarousel();
-        }, 1000);
+        if (!this.preloader || !this.preloaderText) return;
+
+        // Create span elements for each hello message
+        this.hellos.forEach(text => {
+            const span = document.createElement('span');
+            span.textContent = text;
+            this.preloaderText.appendChild(span);
+        });
+
+        this.textSpans = this.preloaderText.querySelectorAll('span');
+        this.cycleText();
     }
 
-    startCarousel() {
-        setInterval(() => {
-            this.nextText();
-        }, 2000); // Change every 2 seconds
+    cycleText() {
+        if (this.currentHelloIndex >= this.textSpans.length) {
+            this.hidePreloader();
+            return;
+        }
+
+        // Update progress bar
+        const progress = ((this.currentHelloIndex + 1) / this.textSpans.length) * 100;
+        this.progressFill.style.width = progress + '%';
+
+        // Make current text visible
+        this.textSpans[this.currentHelloIndex].classList.add('visible');
+
+        // After a delay, hide current and show next
+        setTimeout(() => {
+            if (this.textSpans[this.currentHelloIndex]) {
+                this.textSpans[this.currentHelloIndex].classList.remove('visible');
+            }
+            this.currentHelloIndex++;
+            this.cycleText();
+        }, 400); // Slower, more deliberate cycle speed
     }
 
-    nextText() {
-        if (this.isAnimating) return;
-        
-        this.isAnimating = true;
-        
-        // Fade out current text
-        const currentText = this.helloTexts[this.currentIndex];
-        currentText.classList.remove('active');
-        currentText.classList.add('fade-out');
-        
+    hidePreloader() {
         setTimeout(() => {
-            // Remove fade-out class and move to next
-            currentText.classList.remove('fade-out');
-            this.currentIndex = (this.currentIndex + 1) % this.helloTexts.length;
+            // Start music right when dissolve begins for perfect sync
+            document.dispatchEvent(new CustomEvent('preloaderStartDissolve'));
             
-            // Fade in next text
-            const nextText = this.helloTexts[this.currentIndex];
-            nextText.classList.add('active');
-            
-            this.isAnimating = false;
-        }, 500); // Wait for fade out to complete
+            this.preloader.classList.add('loaded');
+            // Notify that preloader is done after dissolve animation completes
+            setTimeout(() => {
+                document.dispatchEvent(new CustomEvent('preloaderComplete'));
+            }, 1200); // Wait for dissolve animation to complete (matches CSS 1.2s)
+        }, 500); // Brief pause before dissolving
     }
 }
 
@@ -269,54 +407,100 @@ class TypingAnimation {
         this.heroSubtitle = document.querySelector('.hero-subtitle');
         this.texts = [
             'computer engineering freshman at the university of waterloo',
-            'currently scaling...',
-            'i want to invent something, just waiting on the lightbulb',
-            'i break things until they work (sometimes on purpose).',
+            'currently scaling...'
         ];
         this.currentTextIndex = 0;
-        this.currentCharIndex = 0;
+        this.charIndex = 0;
         this.isDeleting = false;
-        this.typeSpeed = 100;
-        this.deleteSpeed = 50;
-        this.pauseTime = 2000;
+        this.isFixingTypo = false;
+        this.typoMade = false;
+
+        this.typeSpeed = 60;
+        this.deleteSpeed = 30;
+        this.pauseTime = 1500;
+        this.typoPause = 400;
+
+        this.typoString = 'compoter';
+        this.typoStartIndex = 0; // The typo is the first word
+        
         
         this.init();
     }
 
+
     init() {
-        // Only start typing animation after page load
-        setTimeout(() => {
-            this.type();
-        }, 1000);
+        // Wait for preloader to complete before starting typing animation
+        document.addEventListener('preloaderComplete', () => {
+            setTimeout(() => this.type(), 1500); // Additional delay after preloader slides up
+        });
     }
 
     type() {
         const currentText = this.texts[this.currentTextIndex];
-        
+        let timeout = this.typeSpeed;
+
+        // Handle DELETING state
         if (this.isDeleting) {
-            // Deleting characters
-            this.heroSubtitle.textContent = currentText.substring(0, this.currentCharIndex - 1);
-            this.currentCharIndex--;
-            
-            if (this.currentCharIndex === 0) {
+            this.charIndex--;
+            const displayText = currentText.substring(0, this.charIndex);
+            this.heroSubtitle.innerHTML = `${displayText}<span class="cursor">|</span>`;
+            timeout = this.deleteSpeed;
+
+            if (this.charIndex === 0) {
                 this.isDeleting = false;
                 this.currentTextIndex = (this.currentTextIndex + 1) % this.texts.length;
-                setTimeout(() => this.type(), 500);
-                return;
+                this.typoMade = false; // Reset for next cycle
+                timeout = 500;
             }
+        // Handle FIXING TYPO state (backspacing)
+        } else if (this.isFixingTypo) {
+            this.charIndex--;
+            const textBeforeTypo = currentText.substring(0, this.typoStartIndex);
+            const incorrectPart = this.typoString.substring(0, this.charIndex - this.typoStartIndex);
+            this.heroSubtitle.innerHTML = `${textBeforeTypo}${incorrectPart}<span class="cursor">|</span>`;
+            timeout = this.deleteSpeed;
+
+            // Stop backspacing at the common prefix ('comp')
+            const commonPrefix = 'comp';
+            if (this.charIndex === this.typoStartIndex + commonPrefix.length) {
+                this.isFixingTypo = false;
+                this.typoMade = true; // Mark as fixed to prevent re-triggering
+                timeout = 200; // Pause before typing the correct ending
+            }
+        // Handle TYPING state
         } else {
             // Typing characters
-            this.heroSubtitle.textContent = currentText.substring(0, this.currentCharIndex + 1);
-            this.currentCharIndex++;
+            let textToType = currentText;
             
-            if (this.currentCharIndex === currentText.length) {
+            // Introduce typo at 'computer' -> 'compoter'
+            if (this.currentTextIndex === 0 && !this.typoMade && this.charIndex >= this.typoStartIndex && this.charIndex < this.typoStartIndex + this.typoString.length) {
+                const typoCharIndex = this.charIndex - this.typoStartIndex;
+                const textBeforeTypo = currentText.substring(0, this.typoStartIndex);
+                const typoPart = this.typoString.substring(0, typoCharIndex + 1);
+                this.heroSubtitle.innerHTML = `${textBeforeTypo}${typoPart}<span class="cursor">|</span>`;
+
+                if (typoCharIndex === this.typoString.length - 1) {
+                    this.isFixingTypo = true;
+                    timeout = this.typoPause;
+                }
+            } else {
+                // Normal typing
+                const displayText = currentText.substring(0, this.charIndex + 1);
+                this.heroSubtitle.innerHTML = `${displayText}<span class="cursor">|</span>`;
+            }
+            
+            
+            this.charIndex++;
+
+            // If finished typing a line
+            if (this.charIndex === currentText.length + 1) {
                 this.isDeleting = true;
-                setTimeout(() => this.type(), this.pauseTime);
-                return;
+                this.charIndex--; // Correct index for deletion start
+                timeout = this.pauseTime;
             }
         }
-        
-        setTimeout(() => this.type(), this.isDeleting ? this.deleteSpeed : this.typeSpeed);
+
+        setTimeout(() => this.type(), timeout);
     }
 }
 
@@ -415,6 +599,7 @@ class MusicPlayer {
         this.volumeSlider = document.getElementById('volumeSlider');
         this.isPlaying = false;
         this.currentTrack = 0;
+        this.musicEnabled = false;
         this.originalPlaylist = [
             'music/Lofi Background Music.mp3',
             'music/Good Night Lofi Music.mp3',
@@ -449,9 +634,32 @@ class MusicPlayer {
         this.audio.addEventListener('pause', () => this.updatePlayButton(false));
         this.audio.addEventListener('ended', () => this.nextTrack());
         
-        // Set initial volume and track
-        this.audio.volume = this.volumeSlider.value / 100;
+        // Set initial volume to very low and track
+        this.volumeSlider.value = 15; // Set slider to 15 (out of 30 max)
+        this.audio.volume = 15 / 100; // Convert to actual volume (15%)
         this.loadTrack(this.currentTrack);
+        
+        // Listen for music consent
+        document.addEventListener('musicConsentGiven', (e) => {
+            this.musicEnabled = e.detail.musicEnabled;
+            console.log('Music consent received:', this.musicEnabled);
+        });
+        
+        // Auto-start playing when preloader starts dissolving (perfect sync)
+        document.addEventListener('preloaderStartDissolve', () => {
+            if (this.musicEnabled) {
+                console.log('Preloader starting dissolve, starting music for perfect sync...');
+                // Start music exactly when dissolve animation begins
+                this.audio.play().then(() => {
+                    console.log('Music started perfectly synced with dissolve!');
+                    this.updatePlayButton(true);
+                }).catch(e => {
+                    console.log('Music failed to start:', e);
+                });
+            } else {
+                console.log('Music disabled by user choice');
+            }
+        });
     }
 
     shufflePlaylist() {
@@ -505,21 +713,110 @@ class MusicPlayer {
     }
 }
 
+// Patch Notes Manager
+class PatchNotesManager {
+    constructor() {
+        this.overlay = document.getElementById('patchNotesOverlay');
+        this.openBtn = document.getElementById('patchNotesLink');
+        this.closeBtn = document.getElementById('closePatchNotes');
+        this.init();
+    }
+
+    init() {
+        if (!this.overlay || !this.openBtn || !this.closeBtn) return;
+
+        this.openBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.openPatchNotes();
+        });
+
+        this.closeBtn.addEventListener('click', () => {
+            this.closePatchNotes();
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.overlay.classList.contains('active')) {
+                this.closePatchNotes();
+            }
+        });
+    }
+
+    openPatchNotes() {
+        this.overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closePatchNotes() {
+        this.overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Music Consent Manager
+class MusicConsentManager {
+    constructor() {
+        this.consentOverlay = document.getElementById('musicConsent');
+        this.enterWithMusicBtn = document.getElementById('enterWithMusic');
+        this.enterSilentBtn = document.getElementById('enterSilent');
+        this.preloader = document.getElementById('preloader');
+        this.musicEnabled = false;
+        this.init();
+    }
+
+    init() {
+        if (!this.consentOverlay || !this.enterWithMusicBtn || !this.enterSilentBtn) return;
+
+        this.enterWithMusicBtn.addEventListener('click', () => {
+            this.musicEnabled = true;
+            this.startSite();
+        });
+
+        this.enterSilentBtn.addEventListener('click', () => {
+            this.musicEnabled = false;
+            this.startSite();
+        });
+    }
+
+    startSite() {
+        // Hide consent overlay
+        this.consentOverlay.style.display = 'none';
+        
+        // Show and start preloader
+        this.preloader.style.display = 'flex';
+        
+        // Dispatch event to let other components know music preference
+        document.dispatchEvent(new CustomEvent('musicConsentGiven', { 
+            detail: { musicEnabled: this.musicEnabled } 
+        }));
+        
+        // Start preloader after a brief moment
+        setTimeout(() => {
+            new Preloader();
+        }, 100);
+    }
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all components
+    // Initialize music consent first
+    new MusicConsentManager();
+    
+    // Initialize other components (but not Preloader - that's handled by consent)
     new ThemeManager();
     new SmoothScroll();
     new ScrollAnimations();
     new MobileNavigation();
     new NavbarScroll();
-    new HelloCarousel();
     new TypingAnimation();
     new MusicPlayer();
+    new PatchNotesManager();
     
     // Initialize particle background only on larger screens
     if (window.innerWidth > 768) {
         new ParticleBackground();
+        new MouseTrail();
+        new ParallaxEffects();
     }
     
     // Add loading animation
@@ -569,6 +866,109 @@ class LazyImageLoader {
                 img.classList.remove('lazy');
             });
         }
+    }
+}
+
+// Mouse Trail Effect
+class MouseTrail {
+    constructor() {
+        this.trail = [];
+        this.maxTrailLength = 20;
+        this.init();
+    }
+
+    init() {
+        // Only on larger screens
+        if (window.innerWidth < 768) return;
+
+        document.addEventListener('mousemove', (e) => this.addTrailPoint(e));
+        this.animate();
+    }
+
+    addTrailPoint(e) {
+        this.trail.push({
+            x: e.clientX,
+            y: e.clientY,
+            life: 1.0
+        });
+
+        if (this.trail.length > this.maxTrailLength) {
+            this.trail.shift();
+        }
+    }
+
+    animate() {
+        // Remove existing trail elements
+        document.querySelectorAll('.mouse-trail').forEach(el => el.remove());
+
+        this.trail.forEach((point, index) => {
+            const trailElement = document.createElement('div');
+            trailElement.className = 'mouse-trail';
+            trailElement.style.cssText = `
+                position: fixed;
+                left: ${point.x}px;
+                top: ${point.y}px;
+                width: ${2 + index * 0.3}px;
+                height: ${2 + index * 0.3}px;
+                background: var(--text-secondary);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 1;
+                opacity: ${point.life * 0.15};
+                transform: translate(-50%, -50%);
+                transition: opacity 0.2s ease;
+                filter: blur(0.5px);
+            `;
+            document.body.appendChild(trailElement);
+
+            // Fade out slower
+            point.life -= 0.03;
+        });
+
+        // Remove dead points
+        this.trail = this.trail.filter(point => point.life > 0);
+
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Parallax Scrolling Effects
+class ParallaxEffects {
+    constructor() {
+        this.heroContent = document.querySelector('.hero-content');
+        this.projectCards = document.querySelectorAll('.project-card');
+        this.init();
+    }
+
+    init() {
+        // Only on larger screens
+        if (window.innerWidth < 768) return;
+
+        window.addEventListener('scroll', () => this.updateParallax());
+    }
+
+    updateParallax() {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+
+        // Parallax effect on hero content
+        if (this.heroContent) {
+            this.heroContent.style.transform = `translateY(${rate * 0.3}px)`;
+        }
+
+        // Subtle parallax on project cards
+        this.projectCards.forEach((card, index) => {
+            const cardTop = card.offsetTop;
+            const cardHeight = card.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            // Only apply effect when card is in viewport
+            if (scrolled + windowHeight > cardTop && scrolled < cardTop + cardHeight) {
+                const speed = 0.1 + (index * 0.05); // Different speeds for each card
+                const yPos = -(scrolled - cardTop) * speed;
+                card.style.transform = `translateY(${yPos}px)`;
+            }
+        });
     }
 }
 

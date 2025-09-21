@@ -9,24 +9,63 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Color Theme Selector -->
-    <div class="theme-selector">
-        <button class="theme-toggle" aria-label="Choose theme color">
-            <i class="fas fa-palette"></i>
-        </button>
+    <!-- Music Consent Overlay -->
+    <div id="musicConsent" class="music-consent-overlay">
+        <div class="music-consent-container">
+            <div class="music-consent-content">
+                <i class="fas fa-music music-icon"></i>
+                <h2>Welcome</h2>
+                <p>This site includes background music for the best experience</p>
+                <p class="lofi-note">(don't worry it's lofi)</p>
+                <button id="enterWithMusic" class="consent-btn music-btn-consent">
+                    <i class="fas fa-volume-up"></i>
+                    Enter with Music
+                </button>
+                <button id="enterSilent" class="consent-btn silent-btn-consent">
+                    <i class="fas fa-volume-mute"></i>
+                    Enter Silently
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader" style="display: none;">
+        <div class="preloader-text">
+            <!-- Hello texts will be injected here by JS -->
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+    <!-- Theme Controls -->
+    <div class="theme-controls">
+        <!-- Dark/Light Mode Toggle -->
+        <div class="mode-toggle">
+            <button class="mode-btn" aria-label="Toggle dark/light mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        
+        <!-- Color Theme Selector -->
+        <div class="theme-selector">
+            <button class="theme-toggle" aria-label="Choose theme color">
+                <i class="fas fa-palette"></i>
+            </button>
         <div class="color-options">
-            <button class="color-option" data-color="lavender" style="background-color: #E6E6FA"></button>
-            <button class="color-option" data-color="mint" style="background-color: #F0FFFF"></button>
-            <button class="color-option" data-color="peach" style="background-color: #FFEBE9"></button>
-            <button class="color-option" data-color="lemon" style="background-color: #FFFACD"></button>
-            <button class="color-option" data-color="sage" style="background-color: #F0F8F0"></button>
-            <button class="color-option" data-color="rose" style="background-color: #FFE4E1"></button>
-            <button class="color-option" data-color="coral" style="background-color: #FFE4E6"></button>
-            <button class="color-option" data-color="sky" style="background-color: #E0F6FF"></button>
-            <button class="color-option" data-color="lilac" style="background-color: #F3E5F5"></button>
-            <button class="color-option" data-color="cream" style="background-color: #FFF8E1"></button>
-            <button class="color-option" data-color="mint-green" style="background-color: #E8F5E8"></button>
-            <button class="color-option" data-color="powder" style="background-color: #F0F8FF"></button>
+            <button class="color-option" data-color="lavender"></button>
+            <button class="color-option" data-color="mint"></button>
+            <button class="color-option" data-color="peach"></button>
+            <button class="color-option" data-color="lemon"></button>
+            <button class="color-option" data-color="sage"></button>
+            <button class="color-option" data-color="rose"></button>
+            <button class="color-option" data-color="coral"></button>
+            <button class="color-option" data-color="sky"></button>
+            <button class="color-option" data-color="lilac"></button>
+            <button class="color-option" data-color="cream"></button>
+            <button class="color-option" data-color="mint-green"></button>
+            <button class="color-option" data-color="powder"></button>
+        </div>
         </div>
     </div>
 
@@ -37,9 +76,6 @@
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
                     <a href="#projects" class="nav-link">Projects</a>
@@ -59,7 +95,7 @@
                 </button>
                 <div class="volume-control">
                     <i class="fas fa-volume-up"></i>
-                    <input type="range" class="volume-slider" min="0" max="100" value="50" id="volumeSlider">
+                    <input type="range" class="volume-slider" min="0" max="30" value="15" id="volumeSlider">
                 </div>
                 <audio id="backgroundMusic" loop>
                     <source src="music/Lofi Background Music.mp3" type="audio/mpeg">
@@ -88,28 +124,6 @@
         <!-- Hero Section -->
         <section id="home" class="hero">
             <div class="hero-content">
-                <div class="hello-carousel">
-                    <span class="hello-text">Hello!</span>
-                    <span class="hello-text">Hola!</span>
-                    <span class="hello-text">Bonjour!</span>
-                    <span class="hello-text">Hallo!</span>
-                    <span class="hello-text">Ciao!</span>
-                    <span class="hello-text">こんにちは!</span>
-                    <span class="hello-text">你好!</span>
-                    <span class="hello-text">Привет!</span>
-                    <span class="hello-text">مرحبا!</span>
-                    <span class="hello-text">नमस्ते!</span>
-                    <span class="hello-text">Salut!</span>
-                    <span class="hello-text">Hej!</span>
-                    <span class="hello-text">안녕하세요!</span>
-                    <span class="hello-text">Olá!</span>
-                    <span class="hello-text">Hei!</span>
-                    <span class="hello-text">Ahoj!</span>
-                    <span class="hello-text">Γεια σας!</span>
-                    <span class="hello-text">Merhaba!</span>
-                    <span class="hello-text">Hej!</span>
-                    <span class="hello-text">Tere!</span>
-                </div>
                 <h1 class="hero-title fade-in">i'm zain khan</h1>
                 <p class="hero-subtitle fade-in">compeng @uwaterloo</p>
                 <div class="social-links fade-in">
@@ -132,91 +146,9 @@
                     </a>
                 </div>
                 
-                <div class="fun-facts-section">
-                    <h3 class="subsection-title">Fun Facts</h3>
-                    <div class="fun-facts-carousel">
-                        <div class="fun-fact-track">
-                          <div class="fun-fact-item">I'm 6'0 (... 5'11 rounds up)</div>
-                          <div class="fun-fact-item">I've had two pet hamsters</div>
-                          <div class="fun-fact-item">Born in Leeds, UK</div>
-                          <div class="fun-fact-item">My favorite movie is The Godfather Part II</div>
-                          <div class="fun-fact-item">Favorite show? Game of Thrones</div>
-                          <div class="fun-fact-item">My favorite animal is the spider monkey</div>
-                          <div class="fun-fact-item">My League rank is Plat 4</div>
-                      
-                          <!-- duplicate for seamless loop -->
-                          <div class="fun-fact-item">I'm 6'0 (... 5'11 rounds up)</div>
-                          <div class="fun-fact-item">I've had two pet hamsters</div>
-                          <div class="fun-fact-item">League Rank Peak is plat 4</div>
-                          <div class="fun-fact-item">My favorite movie is The Godfather Part II</div>
-                          <div class="fun-fact-item">Favorite show? Game of Thrones</div>
-                          <div class="fun-fact-item">My favorite animal is the spider monkey</div>
-                          <div class="fun-fact-item">My League rank is Plat 4</div>
-                        </div>
-                      </div>
-                      
-                </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title fade-in">About Me</h2>
-                <div class="about-content fade-in">
-                    <p>
-                        I'm Zain, a comp eng student at Waterloo who spends way too much time coding random projects. Most of them start with "I wonder if I can…" and sometimes they actually work. I've built an arcade cabinet, redone company websites, and written scripts just to save people from Excel headaches. Outside of that, I like working out, logbait, and occasionally cooking for people — because food is only fun when someone else enjoys it.
-                    </p>
-                </div>
-                
-                <!-- Skills Section -->
-                <div class="skills-content fade-in">
-                    <h3 class="subsection-title">Skills</h3>
-                    <div class="skills-list">
-                        <div class="skill-category">
-                            <h4>Web</h4>
-                            <p>HTML, CSS, JavaScript</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Programming</h4>
-                            <p>Python, Java, C# (a little)</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Databases</h4>
-                            <p>Firebase & databases (aka debugging marathons)</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Design</h4>
-                            <p>CAD & 3D modeling (Fusion 360, Blender, AutoCAD)</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Hardware</h4>
-                            <p>Raspberry Pi tinkering</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Automation</h4>
-                            <p>Excel/finance automation (thanks Kasperia)</p>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Teaching</h4>
-                            <p>Teaching & mentoring (Coding Club + Code Ninjas)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interests Section -->
-                <div class="interests-content fade-in">
-                    <h3 class="subsection-title">Interests</h3>
-                    <div class="interests-list">
-                        <div class="interest-item">Coding projects that start as experiments and sometimes become actual projects</div>
-                        <div class="interest-item">Working out (lifting > cardio)</div>
-                        <div class="interest-item">Gaming (League, Valorant, Minecraft)</div>
-                        <div class="interest-item">Retro games — the arcade cabinet project was my favorite</div>
-                        <div class="interest-item">Cooking simple meals (but only when I can share them)</div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Projects Section -->
         <section id="projects" class="projects">
@@ -227,7 +159,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Kasperia</h3>
                             <p class="project-description">
-                                A modern web application showcasing innovative design and functionality.
+                                A modern web application built with <strong>HTML</strong>, <strong>CSS</strong>, <strong>JavaScript</strong>, and <strong>Python</strong> showcasing innovative design and functionality.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/webkasper" target="_blank" class="project-link">GitHub</a>
@@ -240,7 +172,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Caesar Cipher</h3>
                             <p class="project-description">
-                                An interactive tool for encoding and decoding messages using the Caesar cipher encryption method.
+                                An interactive tool built with <strong>JavaScript</strong> and <strong>HTML/CSS</strong> for encoding and decoding messages using the Caesar cipher encryption method.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/Caesar-Cipher-Tool" target="_blank" class="project-link">GitHub</a>
@@ -253,7 +185,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Image to ASCII</h3>
                             <p class="project-description">
-                                Convert images into ASCII art with customizable character sets and sizing options.
+                                Convert images into ASCII art using <strong>Python</strong> and <strong>JavaScript</strong> with customizable character sets and sizing options.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/img-to-ascii" target="_blank" class="project-link">GitHub</a>
@@ -266,7 +198,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Immy Bird</h3>
                             <p class="project-description">
-                                A fun Flappy Bird clone built with modern web technologies and smooth gameplay mechanics.
+                                A fun Flappy Bird clone built with <strong>JavaScript</strong>, <strong>HTML5 Canvas</strong>, and <strong>CSS</strong> featuring smooth gameplay mechanics.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/flappy-bird" target="_blank" class="project-link">GitHub</a>
@@ -307,10 +239,44 @@
         </section>
     </main>
 
+    <!-- Patch Notes Overlay -->
+    <div id="patchNotesOverlay" class="patch-notes-overlay">
+        <div class="patch-notes-container">
+            <button class="close-patch-notes" id="closePatchNotes">
+                <i class="fas fa-times"></i>
+            </button>
+            <h1>Patch Notes</h1>
+            
+            <div class="version">
+                <h2>Version 1.1.0</h2>
+                <p><strong>Date:</strong> September 21, 2025</p>
+                <ul>
+                    <li>Added preloader with multilingual greetings</li>
+                    <li>Implemented dark/light mode toggle</li>
+                    <li>Enhanced typing animation with typo correction</li>
+                    <li>Added subtle mouse trail effect</li>
+                    <li>Improved project descriptions with highlighted technologies</li>
+                    <li>Fixed navigation highlighting bug</li>
+                </ul>
+            </div>
+
+            <div class="version">
+                <h2>Version 1.0.0</h2>
+                <p><strong>Date:</strong> September 20, 2025</p>
+                <ul>
+                    <li>Initial website launch</li>
+                    <li>Basic project showcase</li>
+                    <li>Contact information</li>
+                    <li>Music player integration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Zain Khan. All rights reserved.</p>
+            <p>&copy; 2025 Zain Khan. All rights reserved. | <a href="#" class="footer-link" id="patchNotesLink">v1.1.0</a></p>
         </div>
     </footer>
 

@@ -478,10 +478,22 @@ body {
   color: var(--accent-color);
   text-decoration: none;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
 }
 
 .nav-logo:hover {
   color: var(--text-secondary);
+}
+
+.logo-img {
+  height: 80px;
+  width: auto;
+  transition: var(--transition);
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
 }
 
 .nav-menu {

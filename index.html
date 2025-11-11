@@ -1,74 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zain Khan - Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
-    <!-- Music Consent Overlay -->
-    <div id="musicConsent" class="music-consent-overlay">
-        <div class="music-consent-container">
-            <div class="music-consent-content">
-                <i class="fas fa-music music-icon"></i>
-                <h2>Welcome</h2>
-                <p>This site includes background music for the best experience</p>
-                <p class="lofi-note">(don't worry it's lofi)</p>
-                <button id="enterWithMusic" class="consent-btn music-btn-consent">
-                    <i class="fas fa-volume-up"></i>
-                    Enter with Music
-                </button>
-                <button id="enterSilent" class="consent-btn silent-btn-consent">
-                    <i class="fas fa-volume-mute"></i>
-                    Enter Silently
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Preloader -->
-    <div id="preloader" style="display: none;">
-        <div class="preloader-text">
-            <!-- Hello texts will be injected here by JS -->
-        </div>
+    <!-- Preloader (Hello carousel) -->
+    <div id="preloader">
+        <div class="preloader-text"><!-- Hello texts injected by JS --></div>
         <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
     </div>
+
     <!-- Theme Controls -->
     <div class="theme-controls">
-        <!-- Dark/Light Mode Toggle -->
         <div class="mode-toggle">
             <button class="mode-btn" aria-label="Toggle dark/light mode">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
-        
-        <!-- Color Theme Selector -->
         <div class="theme-selector">
             <button class="theme-toggle" aria-label="Choose theme color">
                 <i class="fas fa-palette"></i>
             </button>
-        <div class="color-options">
-            <button class="color-option" data-color="lavender"></button>
-            <button class="color-option" data-color="mint"></button>
-            <button class="color-option" data-color="peach"></button>
-            <button class="color-option" data-color="lemon"></button>
-            <button class="color-option" data-color="sage"></button>
-            <button class="color-option" data-color="rose"></button>
-            <button class="color-option" data-color="coral"></button>
-            <button class="color-option" data-color="sky"></button>
-            <button class="color-option" data-color="lilac"></button>
-            <button class="color-option" data-color="cream"></button>
-            <button class="color-option" data-color="mint-green"></button>
-            <button class="color-option" data-color="powder"></button>
-        </div>
+            <div class="color-options">
+                <button class="color-option" data-color="lavender"></button>
+                <button class="color-option" data-color="mint"></button>
+                <button class="color-option" data-color="peach"></button>
+                <button class="color-option" data-color="lemon"></button>
+                <button class="color-option" data-color="sage"></button>
+                <button class="color-option" data-color="rose"></button>
+                <button class="color-option" data-color="coral"></button>
+                <button class="color-option" data-color="sky"></button>
+                <button class="color-option" data-color="lilac"></button>
+                <button class="color-option" data-color="cream"></button>
+                <button class="color-option" data-color="mint-green"></button>
+                <button class="color-option" data-color="powder"></button>
+            </div>
         </div>
     </div>
 
@@ -76,21 +52,15 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-logo">
-                <img src="MAINLOGO.png" alt="Zain Khan Logo" class="logo-img" style="height: 40px; width: auto;">
+                <img src="MAINLOGO.png" alt="Zain Khan Logo" class="logo-img" style="height: 40px; width: auto;" />
             </a>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
-            
-            <!-- Music Player in Nav -->
+
+            <!-- Music Player in Nav (starts paused) -->
             <div class="nav-music-player">
                 <button class="music-btn play-pause" id="playPauseBtn">
                     <i class="fas fa-play"></i>
@@ -100,27 +70,25 @@
                 </button>
                 <div class="volume-control">
                     <i class="fas fa-volume-up"></i>
-                    <input type="range" class="volume-slider" min="0" max="30" value="15" id="volumeSlider">
+                    <input type="range" class="volume-slider" min="0" max="30" value="5" id="volumeSlider" />
                 </div>
                 <audio id="backgroundMusic" loop>
-                    <source src="music/Lofi Background Music.mp3" type="audio/mpeg">
-                    <source src="music/Good Night Lofi Music.mp3" type="audio/mpeg">
-                    <source src="music/Cutie Japan Lofi.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Chill Music 398290.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Hiphop 401921.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Music 344112.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Music 398288.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Music 401926.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Song 401920.mp3" type="audio/mpeg">
-                    <source src="music/Lofi Study Calm Chill Hop.mp3" type="audio/mpeg">
-                    <source src="music/Rainy Lofi City Music.mp3" type="audio/mpeg">
+                    <source src="music/Lofi Background Music.mp3" type="audio/mpeg" />
+                    <source src="music/Good Night Lofi Music.mp3" type="audio/mpeg" />
+                    <source src="music/Cutie Japan Lofi.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Chill Music 398290.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Hiphop 401921.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Music 344112.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Music 398288.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Music 401926.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Song 401920.mp3" type="audio/mpeg" />
+                    <source src="music/Lofi Study Calm Chill Hop.mp3" type="audio/mpeg" />
+                    <source src="music/Rainy Lofi City Music.mp3" type="audio/mpeg" />
                 </audio>
             </div>
-            
+
             <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </div>
         </div>
     </nav>
@@ -132,30 +100,19 @@
                 <h1 class="hero-title fade-in">i'm zain khan</h1>
                 <p class="hero-subtitle fade-in">compeng @uwaterloo</p>
                 <div class="social-links fade-in">
-                    <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="social-link" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://github.com/7kzaincode" target="_blank" class="social-link" aria-label="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="mailto:kn.zain@hotmail.com" class="social-link" aria-label="Email">
-                        <i class="fas fa-paper-plane"></i>
-                    </a>
+                    <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/7kzaincode" target="_blank" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="mailto:kn.zain@hotmail.com" class="social-link" aria-label="Email"><i class="fas fa-paper-plane"></i></a>
                 </div>
-                
-                <!-- Resume Download Button -->
                 <div class="resume-section fade-in">
-                    <a href="ZAINS RESUME.pdf" target="_blank" class="resume-btn">
-                        <i class="fas fa-download"></i>
-                        Download Resume
+                    <a href="ZAINSRESUME.pdf" target="_blank" class="resume-btn">
+                        <i class="fas fa-download"></i> Download Resume
                     </a>
                 </div>
-                
             </div>
         </section>
 
-
-        <!-- Projects Section -->
+        <!-- Projects -->
         <section id="projects" class="projects">
             <div class="container">
                 <h2 class="section-title fade-in">Projects</h2>
@@ -177,7 +134,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Caesar Cipher</h3>
                             <p class="project-description">
-                                An interactive tool built with <strong>JavaScript</strong> and <strong>HTML/CSS</strong> for encoding and decoding messages using the Caesar cipher encryption method.
+                                An interactive tool built with <strong>JavaScript</strong> and <strong>HTML/CSS</strong> for encoding and decoding messages using the Caesar cipher.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/Caesar-Cipher-Tool" target="_blank" class="project-link">GitHub</a>
@@ -203,7 +160,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Immy Bird</h3>
                             <p class="project-description">
-                                A fun Flappy Bird clone built with <strong>JavaScript</strong>, <strong>HTML5 Canvas</strong>, and <strong>CSS</strong> featuring smooth gameplay mechanics.
+                                A Flappy Bird clone built with <strong>JavaScript</strong>, <strong>HTML5 Canvas</strong>, and <strong>CSS</strong>.
                             </p>
                             <div class="project-links">
                                 <a href="https://github.com/7kzaincode/flappy-bird" target="_blank" class="project-link">GitHub</a>
@@ -215,29 +172,18 @@
             </div>
         </section>
 
-
-        <!-- Contact Section -->
+        <!-- Contact -->
         <section id="contact" class="contact">
             <div class="container">
                 <h2 class="section-title fade-in">Get In Touch</h2>
                 <div class="contact-content fade-in">
                     <p class="contact-description">
-                        I'm always interested in new opportunities and collaborations. 
-                        Feel free to reach out if you'd like to connect!
+                        I'm always interested in new opportunities and collaborations. Feel free to reach out if you'd like to connect!
                     </p>
                     <div class="contact-info">
-                        <a href="mailto:kn.zain@hotmail.com" class="contact-link">
-                            <i class="fas fa-envelope"></i>
-                            kn.zain@hotmail.com
-                        </a>
-                        <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="contact-link">
-                            <i class="fab fa-linkedin"></i>
-                            LinkedIn
-                        </a>
-                        <a href="https://github.com/7kzaincode" target="_blank" class="contact-link">
-                            <i class="fab fa-github"></i>
-                            GitHub
-                        </a>
+                        <a href="mailto:kn.zain@hotmail.com" class="contact-link"><i class="fas fa-envelope"></i> kn.zain@hotmail.com</a>
+                        <a href="https://linkedin.com/in/zain-khan-3599622b6/" target="_blank" class="contact-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        <a href="https://github.com/7kzaincode" target="_blank" class="contact-link"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             </div>
@@ -247,11 +193,9 @@
     <!-- Patch Notes Overlay -->
     <div id="patchNotesOverlay" class="patch-notes-overlay">
         <div class="patch-notes-container">
-            <button class="close-patch-notes" id="closePatchNotes">
-                <i class="fas fa-times"></i>
-            </button>
+            <button class="close-patch-notes" id="closePatchNotes"><i class="fas fa-times"></i></button>
             <h1>Patch Notes</h1>
-            
+
             <div class="version">
                 <h2>Version 1.1.0</h2>
                 <p><strong>Date:</strong> September 21, 2025</p>
@@ -281,7 +225,9 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Zain Khan. All rights reserved. | <a href="#" class="footer-link" id="patchNotesLink">v1.1.0</a></p>
+            <p>&copy; 2025 Zain Khan. All rights reserved. |
+                <a href="#" class="footer-link" id="patchNotesLink">v1.1.0</a>
+            </p>
         </div>
     </footer>
 
